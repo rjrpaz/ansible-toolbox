@@ -1,0 +1,2 @@
+localhost
+remote ansible_host=192.168.1.10 ansible_user=sshuser ansible_password=sshpassword
