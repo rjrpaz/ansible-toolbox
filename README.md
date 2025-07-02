@@ -24,10 +24,18 @@ docker build -t ansible-toolbox .
     docker build -t rjrpaz/ansible-toolbox:1.0 -t rjrpaz/ansible-toolbox:latest .
     ```
 
-1. Upload the image to Docker hub
+1. Check image vulnerabilities
 
     ```console
-    docker push rjrpaz/ansible-toolbox:1.0
+    docker scout recommendations local://ansible-toolbox:latest
+    docker scout cves local://ansible-toolbox:latest
+    
+    ```
+
+1. Upload the image to Docker hub. Provide proper value for version.
+
+    ```console
+    docker push rjrpaz/ansible-toolbox:${VERSION}
     ```
 
     ```console

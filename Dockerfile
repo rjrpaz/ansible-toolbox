@@ -1,17 +1,16 @@
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 
 # Install ansible, ansible-lint, python-pip, sshpass
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && apt-get -y install ansible ansible-lint python3-pip sshpass
-
-# Install module to run vmware playbooks
-RUN pip install pyvmomi
-
-# Clean apt repository
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y clean
-
-# Create ssh key
-RUN ssh-keygen -t rsa -N "" -C "ansible key" -f /root/.ssh/id_rsa
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y update \
+    && apt-get -y install \
+    ansible \
+    ansible-lint \
+    python3-pip \
+    sshpass \
+    && DEBIAN_FRONTEND=noninteractive apt-get -y clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install --break-system-packages --no-cache-dir --upgrade pyvmomi
+    # Mount SSH keys at runtime
 
 # Mount configuration directory for ansible
-ADD ./etc /etc/ansible
-
+COPY etc /etc/ansible
